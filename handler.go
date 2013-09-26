@@ -1,7 +1,9 @@
 package main
 
 import (
+	"github.com/russross/blackfriday"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -108,6 +110,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			}
 			defer f.Close()
 			log.Printf("Serving '%s'", local_path)
+			for _, ext := range markdown {
+				if strings.HasSuffix(local_path, "."+ext) {
+					if bytes, err := ioutil.ReadAll(f); err == nil {
+						w.Header().Set("Content-Type", "text/html")
+						w.Write(blackfriday.MarkdownCommon(bytes))
+						return
+					}
+				}
+			}
 			http.ServeContent(w, r, entry_info.Name(), entry_info.ModTime(), f)
 		}
 	default:

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"sort"
 )
@@ -15,6 +16,17 @@ var (
 		"name": "asc",
 	}
 )
+
+type csvflag []string
+
+func (s *csvflag) String() string {
+	return fmt.Sprintf("%s", *s)
+}
+
+func (s *csvflag) Set(value string) error {
+	*s = append(*s, value)
+	return nil
+}
 
 type sortable struct {
 	Infos *[]os.FileInfo

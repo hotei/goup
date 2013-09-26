@@ -15,6 +15,7 @@ var (
 	dir      string = "."
 	mode     string = "http"
 	index    string = ""
+	markdown csvflag
 	VERSION  string = ""
 )
 
@@ -45,6 +46,7 @@ func main() {
 	flag.StringVar(&dir, "dir", dir, "directory for storing and serving files")
 	flag.StringVar(&mode, "mode", mode, "run either standalone (http) or as FCGI application (fcgi)")
 	flag.StringVar(&index, "index", index, "serve this file if it exists in the current directory instead of a listing")
+	flag.Var(&markdown, "markdown", "convert markdown files with this extension to HTML (use multiple times)")
 	verbose := flag.Bool("v", false, "verbose output (no output at all by default)")
 	version := flag.Bool("version", false, "show version and exit")
 	flag.Parse()
